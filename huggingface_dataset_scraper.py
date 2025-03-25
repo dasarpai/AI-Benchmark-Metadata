@@ -220,7 +220,7 @@ def main():
     os.makedirs(DATASETS_DIR, exist_ok=True)
     
     # Get list of datasets
-    datasets = get_dataset_list(page_count=20)  # Adjust page_count as needed
+    datasets = get_dataset_list(page_count=100)  # Adjust page_count as needed
     
     # Download HTML content for each dataset
     logger.info(f"Downloading HTML content for {len(datasets)} datasets...")
