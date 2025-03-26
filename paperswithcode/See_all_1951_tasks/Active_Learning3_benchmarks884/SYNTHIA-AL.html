@@ -1,0 +1,1832 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script>
+    const GTAG_ENABLED =  true ;
+    const GTAG_TRACKING_ID = "UA-121182717-1";
+    const SENTRY_DSN_FRONTEND = "".trim();
+    const GLOBAL_CSRF_TOKEN = 'n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX';
+    const MEDIA_URL = "https://production-media.paperswithcode.com/";
+    const ASSETS_URL = "https://production-assets.paperswithcode.com";
+    run_after_frontend_loaded = window.run_after_frontend_loaded || [];
+  </script>
+  <link rel="preconnect" href="https://production-assets.paperswithcode.com"><link rel="dns-prefetch" href="https://production-assets.paperswithcode.com"><link rel="preload" as="font" type="font/woff2" href="https://production-assets.paperswithcode.com/perf/fonts/65e877e527022735c1a1.woff2" crossorigin><link rel="preload" as="font" type="font/woff2" href="https://production-assets.paperswithcode.com/perf/fonts/917632e36982ca7933c8.woff2" crossorigin><link rel="preload" as="font" type="font/woff2" href="https://production-assets.paperswithcode.com/perf/fonts/f1405bd8a987c2ea8a67.woff2" crossorigin><script>(()=>{if(GTAG_ENABLED){const t=document.createElement("script");function n(){window.dataLayer.push(arguments)}t.src=`https://www.googletagmanager.com/gtag/js?id=${GTAG_TRACKING_ID}`,document.head.appendChild(t),window.dataLayer=window.dataLayer||[],window.gtag=n,n("js",new Date),n("config",GTAG_TRACKING_ID),window.captureOutboundLink=function(t){n("event","click",{event_category:"outbound",event_label:t})}}else window.captureOutboundLink=function(n){document.location=n}})();</script><link rel="preload" as="script" href="https://production-assets.paperswithcode.com/perf/766.4af6b88b.js"><link rel="preload" as="script" href="https://production-assets.paperswithcode.com/perf/2.6da00df7.js"><link rel="preload" as="script" href="https://production-assets.paperswithcode.com/perf/814.49dcf06c.js"><link rel="preload" as="style" href="https://production-assets.paperswithcode.com/perf/918.c41196c3.css"><link rel="preload" as="style" href="https://production-assets.paperswithcode.com/perf/view_dataset.b56df998.css"><link rel="preload" as="script" href="https://production-assets.paperswithcode.com/perf/view_dataset.22fdaf24.js"><link rel="stylesheet" href="https://production-assets.paperswithcode.com/perf/918.c41196c3.css"><link rel="stylesheet" href="https://production-assets.paperswithcode.com/perf/view_dataset.b56df998.css">
+  
+    
+
+
+
+
+  <!-- Metadata -->
+  <title>SYNTHIA-AL Dataset | Papers With Code</title>
+  <meta name="description" content="Specially designed to evaluate active learning for video object detection in road scenes." />
+  
+
+
+  <!-- Open Graph protocol metadata -->
+  <meta property="og:title" content="Papers with Code - SYNTHIA-AL Dataset">
+  <meta property="og:description" content="Specially designed to evaluate active learning for video object detection in road scenes.">
+  
+  <meta property="og:image" content="https://production-media.paperswithcode.com/datasets/default.gif">
+  
+  <meta property="og:url" content="https://paperswithcode.com/dataset/synthia-al">
+  
+
+
+  <!-- Twitter metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@paperswithcode">
+  <meta name="twitter:title" content="Papers with Code - SYNTHIA-AL Dataset">
+  <meta name="twitter:description" content="Specially designed to evaluate active learning for video object detection in road scenes.">
+  <meta name="twitter:creator" content="@paperswithcode">
+  <meta name="twitter:url" content="https://paperswithcode.com/dataset/synthia-al">
+  <meta name="twitter:domain" content="paperswithcode.com">
+
+
+<!-- JSON LD -->
+
+<script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@graph": {
+        "@type": "Dataset",
+        "@id": "synthia-al",
+        "name": "SYNTHIA-AL Dataset",
+        "description": "Specially designed to evaluate active learning for video object detection in road scenes.",
+        "url": "https://paperswithcode.com/dataset/synthia-al",
+        "image": "https://production-media.paperswithcode.com/datasets/default.gif",
+        "headline": "SYNTHIA-AL Dataset",
+        "author": [
+            {
+                "@type": "Person",
+                "@id": "#Javad_Zolfaghari_Bengar",
+                "name": "Javad Zolfaghari Bengar",
+                "image": "https://paperswithcode.com/static/"
+            },
+            {
+                "@type": "Person",
+                "@id": "#Abel_Gonzalez-Garcia",
+                "name": "Abel Gonzalez-Garcia",
+                "image": "https://paperswithcode.com/static/"
+            },
+            {
+                "@type": "Person",
+                "@id": "#Gabriel_Villalonga",
+                "name": "Gabriel Villalonga",
+                "image": "https://paperswithcode.com/static/"
+            },
+            {
+                "@type": "Person",
+                "@id": "#Bogdan_Raducanu",
+                "name": "Bogdan Raducanu",
+                "image": "https://paperswithcode.com/static/"
+            },
+            {
+                "@type": "Person",
+                "@id": "#Hamed_H._Aghdam",
+                "name": "Hamed H. Aghdam",
+                "image": "https://paperswithcode.com/static/"
+            },
+            {
+                "@type": "Person",
+                "@id": "#Mikhail_Mozerov",
+                "name": "Mikhail Mozerov",
+                "image": "https://paperswithcode.com/static/"
+            },
+            {
+                "@type": "Person",
+                "@id": "#Antonio_M._Lopez",
+                "name": "Antonio M. Lopez",
+                "image": "https://paperswithcode.com/static/"
+            },
+            {
+                "@type": "Person",
+                "@id": "#Joost_Van_de_Weijer",
+                "name": "Joost Van de Weijer",
+                "image": "https://paperswithcode.com/static/"
+            }
+        ],
+        "includedInDataCatalog": {
+            "@type": "DataCatalog",
+            "name": "Papers with Code",
+            "url": "https://paperswithcode.com/datasets",
+            "image": "https://paperswithcode.com/static/datasets.jpg",
+            "headline": "Papers with Code"
+        }
+    }
+}</script>
+
+  
+  <meta name="theme-color" content="#fff"/>
+  <link rel="manifest" href="https://production-assets.paperswithcode.com/static/manifest.web.json">
+
+  
+  
+</head>
+<body>
+
+
+
+
+    
+
+<nav class="navbar navbar-expand-lg navbar-light header">
+  <a class="navbar-brand" href="/">
+    
+      <span class=" icon-wrapper" data-name="pwc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M88 128h48v256H88zm144 0h48v256h-48zm-72 16h48v224h-48zm144 0h48v224h-48zm72-16h48v256h-48z"/><path d="M104 104V56H16v400h88v-48H64V104zm304-48v48h40v304h-40v48h88V56z"/></svg></span>
+    
+  </a>
+
+  <div class="navbar-mobile-twitter d-lg-none">
+    <a rel="noreferrer" href="https://twitter.com/paperswithcode">
+      <span class=" icon-wrapper icon-fa icon-fa-brands" data-name="twitter"><svg viewBox="0 0 512.001 515.25" xmlns="http://www.w3.org/2000/svg"><path d="M459.37 152.016c.326 4.548.326 9.097.326 13.645 0 138.72-105.583 298.558-298.559 298.558C101.685 464.22 46.457 447 0 417.114c8.447.973 16.568 1.298 25.34 1.298 49.054 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.113-72.772 6.499.975 12.996 1.624 19.819 1.624 9.42 0 18.843-1.3 27.613-3.573-48.08-9.747-84.142-51.98-84.142-102.984v-1.3c13.968 7.798 30.213 12.67 47.43 13.32-28.263-18.843-46.78-51.006-46.78-87.391 0-19.492 5.196-37.36 14.294-52.954 51.654 63.674 129.3 105.258 216.364 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.827 46.782-104.934 104.934-104.934 30.214 0 57.502 12.67 76.671 33.136 23.715-4.548 46.455-13.319 66.599-25.34-7.798 24.367-24.366 44.834-46.132 57.828 21.117-2.274 41.584-8.122 60.426-16.244-14.292 20.791-32.161 39.309-52.628 54.253z"/></svg></span>
+    </a>
+  </div>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-bs-toggle="collapse"
+    data-target="#top-menu"
+    data-bs-target="#top-menu"
+    aria-controls="top-menu"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="top-menu">
+    <ul class="navbar-nav mr-auto navbar-nav__left light-header">
+      <li class="nav-item header-search">
+        <form action="/search" method="get" id="id_global_search_form" autocomplete="off">
+          <input type="text" name="q_meta" style="display:none" id="q_meta" />
+          <input type="hidden" name="q_type" id="q_type" />
+          <input id="id_global_search_input" autocomplete="off" value="" name='q' class="global-search" type="search" placeholder='Search'/>
+          <button type="submit" class="icon"><span class=" icon-wrapper icon-fa icon-fa-light" data-name="search"><svg viewBox="0 0 512.025 520.146" xmlns="http://www.w3.org/2000/svg"><path d="M508.5 482.6c4.7 4.7 4.7 12.3 0 17l-9.9 9.9c-4.7 4.7-12.3 4.7-17 0l-129-129c-2.2-2.3-3.5-5.3-3.5-8.5v-10.2C312 396 262.5 417 208 417 93.1 417 0 323.9 0 209S93.1 1 208 1s208 93.1 208 208c0 54.5-21 104-55.3 141.1H371c3.2 0 6.2 1.2 8.5 3.5zM208 385c97.3 0 176-78.7 176-176S305.3 33 208 33 32 111.7 32 209s78.7 176 176 176z"/></svg></span></button>
+        </form>
+      </li>
+
+      
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/sota">
+            Browse State-of-the-Art
+          </a>
+        </li>
+
+        
+          <li class="nav-item">
+            <a class="nav-link" href="/datasets"> Datasets </a>
+          </li>
+        
+
+        
+            <li class="nav-item">
+              <a class="nav-link" href="/methods">Methods</a>
+            </li>
+        
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            role="button"
+            id="navbarDropdownRepro"
+            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            More
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownRepro">
+        
+            <a class="dropdown-item" href="/newsletter">Newsletter</a>
+            <a class="dropdown-item" href="/rc2022">RC2022</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/about">About</a>
+            <a class="dropdown-item" href="/trends">Trends</a>
+              
+                  <a class="dropdown-item" href="https://portal.paperswithcode.com/">
+                      Portals
+                  </a>
+              
+              
+                  <a class="dropdown-item" href="/libraries"> Libraries </a>
+              
+          </div>
+        </li>
+
+          
+
+
+
+      
+    </ul>
+
+    <ul class="navbar-nav ml-auto navbar-nav__right navbar-subscribe justify-content-center align-items-center">
+      
+
+      <li class="nav-item">
+        <a class="nav-link" rel="noreferrer" href="https://twitter.com/paperswithcode">
+          <span class="nav-link-social-icon icon-wrapper icon-fa icon-fa-brands" data-name="twitter"><svg viewBox="0 0 512.001 515.25" xmlns="http://www.w3.org/2000/svg"><path d="M459.37 152.016c.326 4.548.326 9.097.326 13.645 0 138.72-105.583 298.558-298.559 298.558C101.685 464.22 46.457 447 0 417.114c8.447.973 16.568 1.298 25.34 1.298 49.054 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.113-72.772 6.499.975 12.996 1.624 19.819 1.624 9.42 0 18.843-1.3 27.613-3.573-48.08-9.747-84.142-51.98-84.142-102.984v-1.3c13.968 7.798 30.213 12.67 47.43 13.32-28.263-18.843-46.78-51.006-46.78-87.391 0-19.492 5.196-37.36 14.294-52.954 51.654 63.674 129.3 105.258 216.364 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.827 46.782-104.934 104.934-104.934 30.214 0 57.502 12.67 76.671 33.136 23.715-4.548 46.455-13.319 66.599-25.34-7.798 24.367-24.366 44.834-46.132 57.828 21.117-2.274 41.584-8.122 60.426-16.244-14.292 20.791-32.161 39.309-52.628 54.253z"/></svg></span>
+        </a>
+      </li>
+
+     
+
+      
+        <li class="nav-item">
+          <a id="signin-link" class="nav-link" href="/accounts/login?next=/dataset/synthia-al">Sign In</a>
+        </li>
+      
+    </ul>
+  </div>
+</nav>
+
+
+
+
+
+<!-- Page modals -->
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="emailModalLabel">Subscribe to the PwC Newsletter</h3>
+        <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="" method="post">
+        <div class="modal-body">
+          <div class="modal-body-info-text">
+            Stay informed on the latest trending ML papers with code, research developments, libraries, methods, and datasets.<br/><br/>
+            <a href="/newsletter">Read previous issues</a>
+          </div>
+
+          <input type="hidden" name="csrfmiddlewaretoken" value="n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX">
+          <input placeholder="Enter your email" type="email" class="form-control pwc-email" name="address" id="id_address" max_length="100" required>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Join the community</h5>
+        <button type="button" class="close btn-close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="login-modal-message">
+        You need to <a href="/accounts/login?next=/dataset/synthia-al">log in</a> to edit.<br/>
+        You can <a href="/accounts/register?next=/dataset/synthia-al">create a new account</a> if you don't have one.<br/><br/>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Edit Dataset -->
+    <div class="modal fade" id="editDataset" role="dialog"
+         aria-labelledby="editDatasetLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDatasetLabel">Edit Dataset</h5>
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form  class="dataset-form" method="post"  enctype="multipart/form-data">
+                        
+
+<input type="hidden" name="csrfmiddlewaretoken" value="n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX"> <div id="div_id_name" class="form-group"> <label for="id_name" class=" requiredField">
+                Dataset name:<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="name" value="SYNTHIA-AL" class="textinput textInput form-control" required id="id_name"> </div> </div> <div id="div_id_full_name" class="form-group"> <label for="id_full_name" class="">
+                Full name (optional):
+            </label> <div class=""> <input type="text" name="full_name" class="textinput textInput form-control" id="id_full_name"> </div> </div> <div id="div_id_description" class="form-group"> <label for="id_description" class=" requiredField">
+                Description (Markdown and $\LaTeX$ enabled):<span class="asteriskField">*</span> </label> <div class=""> <textarea name="description" cols="40" rows="6" placeholder="Briefly describe the dataset. Provide:
+
+* a high-level explanation of the dataset characteristics
+* explain motivations and summary of its content
+* potential use cases of the dataset
+
+If the description or image is from a different paper, please refer to it as follows:
+Source: [title](url)
+Image Source: [title](url)
+" class="md-sources-autocomplete textarea form-control" required id="id_description">
+Specially designed to evaluate active learning for video object detection in road scenes. 
+
+Source: [Temporal Coherence for Active Learning in Videos](/paper/temporal-coherence-for-active-learning-in)</textarea> </div> </div> <div id="div_id_url" class="form-group"> <label for="id_url" class="">
+                Homepage URL (optional):
+            </label> <div class=""> <input type="text" name="url" value="http://synthia-dataset.net/downloads/" class="textinput textInput form-control" id="id_url"> </div> </div> <div id="div_id_paper" class="form-group"> <label for="id_paper" class="">
+                Paper where the dataset was introduced:
+            </label> <div class=""> <select name="paper" style="width: 350px" class="modelselect2 form-control custom-select" id="id_paper" data-autocomplete-light-language="en" data-autocomplete-light-url="/sota/autocomplete/paper" data-autocomplete-light-function="select2"> <option value="">---------</option> <option value="151763" selected>Temporal Coherence for Active Learning in Videos</option>
+
+</select><div style="display:none" class="dal-forward-conf" id="dal-forward-conf-for_id_paper"><script type="text/dal-forward-conf">[{"type": "const", "val": true, "dst": "all_portals"}]</script></div> </div> </div> <div id="div_id_introduced_date" class="form-group"> <label for="id_introduced_date" class="">
+                Introduction date:
+            </label> <div class=""> <input type="text" name="introduced_date" autocomplete="off" class="dateinput form-control" id="id_introduced_date"> </div> </div> <div id="div_id_license_name" class="form-group"> <label for="id_license_name" class="">
+                Dataset license:
+            </label> <div class=""> <input type="text" name="license_name" maxlength="500" class="textinput textInput form-control" id="id_license_name"> </div> </div> <div id="div_id_license_url" class="form-group"> <label for="id_license_url" class="">
+                URL to full license terms:
+            </label> <div class=""> <input type="url" name="license_url" maxlength="200" class="urlinput form-control" id="id_license_url"> </div> </div> <div id="div_id_image" class="form-group"> <label for="id_image" class="">
+                Image
+            </label> <div class=" mb-2"> <div class="form-control custom-file" style="border:0"> <input type="file" name="image" class="custom-file-input" accept="image/*" id="id_image"> <label class="custom-file-label text-truncate" for="id_image">---</label> <script type="text/javascript" id="script-id_image">        
+            document.getElementById("script-id_image").parentNode.querySelector('.custom-file-input').onchange =  function (e){
+                var filenames = "";
+                for (let i=0;i<e.target.files.length;i++){
+                    filenames+=(i>0?", ":"")+e.target.files[i].name;
+                }
+                e.target.parentNode.querySelector('.custom-file-label').textContent=filenames;    
+            }        
+        </script> </div> </div> </div> <input type="hidden" name="prediction_id" id="id_prediction_id">
+
+                        <div class="modal-footer">
+                            <button type="submit" name="edit-dataset" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Tasks -->
+    <div class="modal fade" id="editTasks" role="dialog"
+         aria-labelledby="editTasksLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTasksLabel">Edit Dataset Tasks</h5>
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX">
+                        
+
+
+    
+    <div id="div_id_tasks" class="form-group">
+        
+            <label for="id_tasks" class="">
+                Add or remove tasks:
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <select name="tasks" data-container-css-class="select2-lockable-tags" data-allow-clear="false" style="width: 100%" class="modelselect2multiple form-control" id="id_tasks" data-autocomplete-light-language="en" data-autocomplete-light-url="/task-autocomplete/" data-autocomplete-light-function="select2" multiple>
+  <option value="1038" selected>Active Learning</option>
+
+  <option value="4" selected>Object Detection</option>
+
+  <option value="745" selected>Video Object Detection</option>
+
+</select><div style="display:none" class="dal-forward-conf" id="dal-forward-conf-for_id_tasks"><script type="text/dal-forward-conf">[{"type": "const", "val": true, "dst": "disable_create_option"}]</script></div>
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        <p>
+                            Some tasks are inferred based on the benchmarks list.
+                        </p>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="edit-tasks">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Loader -->
+    <div class="modal fade" id="addLoader" role="dialog"
+         aria-labelledby="addLoaderLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addLoaderLabel">Add a Data Loader</h5>
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX">
+                        
+
+
+    
+    <div id="div_id_library_url" class="form-group">
+        
+            <label for="id_library_url" class=" requiredField">
+                Code Repository URL:<span class="asteriskField">*</span>
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <input type="text" name="library_url" class="textinput textInput form-control" required id="id_library_url">
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        
+
+
+    
+    <div id="div_id_loader_url" class="form-group">
+        
+            <label for="id_loader_url" class="">
+                [Optional] URL to documentation for this dataset:
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <input type="url" name="loader_url" class="urlinput form-control" id="id_loader_url">
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        
+
+
+    
+    <div id="div_id_frameworks" class="form-group">
+        
+            <label class="">
+                Supported frameworks:
+            </label>
+        
+
+        
+            
+
+
+<div >
+
+    
+    
+    
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="frameworks" value="tf"  id="id_frameworks_0"
+>
+        <label class="form-check-label" for="id_frameworks_0">
+            TensorFlow
+        </label>
+        
+    </div>
+   
+   
+    
+    
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="frameworks" value="pytorch"  id="id_frameworks_1"
+>
+        <label class="form-check-label" for="id_frameworks_1">
+            PyTorch
+        </label>
+        
+    </div>
+   
+   
+    
+    
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="frameworks" value="jax"  id="id_frameworks_2"
+>
+        <label class="form-check-label" for="id_frameworks_2">
+            JAX
+        </label>
+        
+    </div>
+   
+   
+    
+
+    
+
+</div>
+
+        
+
+        
+
+        
+    </div>
+    
+
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="add-loader">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove Loader -->
+    <div class="modal fade" id="removeLoader" tabindex="-1" role="dialog"
+         aria-labelledby="removeLoaderLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removeLoaderLabel">Remove a
+                        Data Loader</h5>
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" method="post">
+                    <div class="modal-body">
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modalities -->
+    <div class="modal fade" id="editCollections" role="dialog"
+         aria-labelledby="editCollectionsLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCollectionsLabel">Edit Dataset Modalities</h5>
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX">
+                        
+
+
+    
+    <div id="div_id_modalities" class="form-group">
+        
+            <label for="id_modalities" class="">
+                Add or remove modalities:
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <select name="modalities" data-container-css-class="" data-allow-clear="false" style="width: 100%" class="modelselect2multiple form-control" id="id_modalities" data-autocomplete-light-language="en" data-autocomplete-light-url="/dataset-collection-autocomplete/" data-autocomplete-light-function="select2" multiple>
+  <option value="5" selected>Videos</option>
+
+</select><div style="display:none" class="dal-forward-conf" id="dal-forward-conf-for_id_modalities"><script type="text/dal-forward-conf">[{"type": "const", "val": "Modalities", "dst": "area_name"}]</script></div>
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="edit-modalities">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Languages -->
+    <div class="modal fade" id="editLanguages" role="dialog"
+         aria-labelledby="editLanguagesLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editLanguagesLabel">Edit Dataset Languages</h5>
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX">
+                        
+
+
+    
+    <div id="div_id_languages" class="form-group">
+        
+            <label for="id_languages" class="">
+                Add or remove languages:
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <select name="languages" data-container-css-class="" data-allow-clear="false" style="width: 100%" class="modelselect2multiple form-control" id="id_languages" data-autocomplete-light-language="en" data-autocomplete-light-url="/dataset-collection-autocomplete/" data-autocomplete-light-function="select2" multiple>
+</select><div style="display:none" class="dal-forward-conf" id="dal-forward-conf-for_id_languages"><script type="text/dal-forward-conf">[{"type": "const", "val": "Languages", "dst": "area_name"}]</script></div>
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="edit-languages">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Variants -->
+    <div class="modal fade" id="editVariants" role="dialog"
+         aria-labelledby="editVariantsLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editVariantsLabel">Edit Dataset Variants</h5>
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX">
+                        
+
+
+    
+    <div id="div_id_variants" class="form-group">
+        
+            <label for="id_variants" class="">
+                Add or remove variants:
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <select name="variants" data-container-css-class="" data-allow-clear="false" style="width: 100%" class="modelselect2multiple form-control" id="id_variants" data-autocomplete-light-language="en" data-autocomplete-light-url="/dataset-autocomplete/" data-autocomplete-light-function="select2" multiple>
+  <option value="5424" selected>SYNTHIA-AL</option>
+
+</select><div style="display:none" class="dal-forward-conf" id="dal-forward-conf-for_id_variants"><script type="text/dal-forward-conf">[{"type": "const", "val": true, "dst": "disable_create_option"}]</script></div>
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+
+                    <p>
+                        The benchmarks section lists all benchmarks using a given dataset or any of
+                        its variants. We use variants to distinguish between results evaluated on
+                        slightly different versions of the same dataset. For example, ImageNet 32⨉32
+                        and ImageNet 64⨉64 are variants of the ImageNet dataset.
+                    </p>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="edit-variants">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Row -->
+    <div class="modal fade" id="addRow" role="dialog"
+         aria-labelledby="addRowLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRowLabel">Add a new
+                        evaluation result row</h5>
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="n6IbuYlEbh8tpsjxsFn8zcHOelUrdhMeKsFgVxRTEdkqVEQfGXpDevwUs9WoR2pX">
+                        
+
+
+    
+    <div id="div_id_paper" class="form-group">
+        
+            <label for="id_paper_add_row" class=" requiredField">
+                Paper title:<span class="asteriskField">*</span>
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <select name="paper" id="id_paper_add_row" class="modelselect2 form-control" required data-autocomplete-light-language="en" data-autocomplete-light-url="/paper-autocomplete/" data-autocomplete-light-function="select2">
+  <option value="" selected>---------</option>
+
+</select>
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        
+
+
+    
+    <div id="div_id_dataset" class="form-group">
+        
+            <label for="id_dataset" class=" requiredField">
+                Dataset or its variant:<span class="asteriskField">*</span>
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <select name="dataset" class="modelselect2 form-control" required id="id_dataset" data-autocomplete-light-language="en" data-autocomplete-light-url="/dataset-autocomplete/" data-autocomplete-light-function="select2">
+  <option value="">---------</option>
+
+  <option value="5424" selected>SYNTHIA-AL</option>
+
+</select>
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        
+
+
+    
+    <div id="div_id_task" class="form-group">
+        
+            <label for="id_task" class=" requiredField">
+                Task:<span class="asteriskField">*</span>
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <select name="task" class="modelselect2 form-control" required id="id_task" data-autocomplete-light-language="en" data-autocomplete-light-url="/task-autocomplete/" data-autocomplete-light-function="select2">
+  <option value="" selected>---------</option>
+
+</select>
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        
+
+
+    
+    <div id="div_id_model_name" class="form-group">
+        
+            <label for="id_model_name" class=" requiredField">
+                Model name:<span class="asteriskField">*</span>
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <input type="text" name="model_name" class="textinput textInput form-control" required id="id_model_name">
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        
+
+
+    
+    <div id="div_id_metric" class="form-group">
+        
+            <label for="id_metric" class=" requiredField">
+                Metric name:<span class="asteriskField">*</span>
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <select name="metric" class="modelselect2 form-control" required id="id_metric" data-autocomplete-light-language="en" data-autocomplete-light-url="/metric-autocomplete/" data-autocomplete-light-function="select2">
+  <option value="" selected>---------</option>
+
+</select>
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        <div id="sota-metric-names">
+                        </div>
+                        
+
+
+    
+        <div class="form-group">
+        
+    
+    <div id="div_id_metric_higher_is_better" class="form-check">
+        
+
+        
+
+        
+
+        
+            
+                
+                    <input type="checkbox" name="metric_higher_is_better" class="checkboxinput form-check-input" id="id_metric_higher_is_better">
+                
+                <label for="id_metric_higher_is_better" class="form-check-label">
+                    Higher is better (for the metric)
+                </label>
+                
+
+
+    
+
+
+
+
+    
+
+
+
+            
+        
+    </div>
+    
+        
+        </div>
+    
+
+
+                        
+
+
+    
+    <div id="div_id_metric_value" class="form-group">
+        
+            <label for="id_metric_value" class=" requiredField">
+                Metric value:<span class="asteriskField">*</span>
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <input type="text" name="metric_value" class="textinput textInput form-control" required id="id_metric_value">
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                        <div id="sota-metric-values">
+                        </div>
+                        
+
+
+    
+        <div class="form-group">
+        
+    
+    <div id="div_id_uses_additional_data" class="form-check">
+        
+
+        
+
+        
+
+        
+            
+                
+                    <input type="checkbox" name="uses_additional_data" class="checkboxinput form-check-input" id="id_uses_additional_data">
+                
+                <label for="id_uses_additional_data" class="form-check-label">
+                    Uses extra training data
+                </label>
+                
+
+
+    
+
+
+
+
+    
+
+
+
+            
+        
+    </div>
+    
+        
+        </div>
+    
+
+
+                        
+
+
+    
+    <div id="div_id_evaluated_on" class="form-group">
+        
+            <label for="id_evaluated_on" class="">
+                Data evaluated on
+            </label>
+        
+
+        
+
+        
+
+        
+            
+                <div class="">
+                    
+                        <input type="text" name="evaluated_on" autocomplete="off" class="dateinput form-control" id="id_evaluated_on">
+                    
+                    
+
+
+    
+
+
+
+
+    
+
+
+
+                </div>
+            
+        
+    </div>
+    
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" name="add-row">Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<div class="container content content-buffer ">
+
+  
+    <div class="mobile-width">
+    <div class="dataset-header">
+    
+    
+        <a href="/datasets?mod=videos">
+            <span class="badge badge-primary">
+                <span class=" icon-wrapper icon-fa icon-fa-solid" data-name="film"><svg viewBox="0 0 512 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M488 65.998c13.3 0 24 10.7 24 24v336c0 13.3-10.7 24-24 24h-8v-20c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v20H96v-20c0-6.6-5.4-12-12-12H44c-6.6 0-12 5.4-12 12v20h-8c-13.3 0-24-10.7-24-24v-336c0-13.3 10.7-24 24-24h8v20c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-20h320v20c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-20h8zm-392 308v-40c0-6.6-5.4-12-12-12H44c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm0-96v-40c0-6.6-5.4-12-12-12H44c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm0-96v-40c0-6.6-5.4-12-12-12H44c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm272 208v-96c0-6.6-5.4-12-12-12H156c-6.6 0-12 5.4-12 12v96c0 6.6 5.4 12 12 12h200c6.6 0 12-5.4 12-12zm0-168v-96c0-6.6-5.4-12-12-12H156c-6.6 0-12 5.4-12 12v96c0 6.6 5.4 12 12 12h200c6.6 0 12-5.4 12-12zm112 152v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm0-96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm0-96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12z"/></svg></span>
+            <span>Videos</span>
+            </span>
+        </a>
+    
+    
+    </div>
+
+    <div class="dataset-title mb-3">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="float-right dataset-edit">
+                    <div class="dropdown edit-button">
+                        <a data-bs-toggle="modal"
+                           data-bs-target="#loginModal">
+                            <span class="badge badge-method-edit"
+                                  style="padding-top:10px;"><span class=" icon-wrapper icon-fa icon-fa-solid" data-name="edit"><svg viewBox="0 0 576 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M402.6 85.198l90.2 90.2c3.8 3.8 3.8 10 0 13.8l-218.399 218.4-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8 218.4-218.4c3.799-3.8 10-3.8 13.799 0zm162-22.9c15.2 15.2 15.2 39.9 0 55.2l-35.4 35.4c-3.8 3.8-10 3.8-13.8 0l-90.2-90.2c-3.8-3.8-3.8-10 0-13.8l35.4-35.4c15.3-15.2 40-15.2 55.2 0zM384 348.198c0-3.2 1.3-6.2 3.5-8.5l40-40c7.6-7.5 20.5-2.2 20.5 8.5v157.8c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h285.8c10.7 0 16.1 12.9 8.5 20.5l-40 40c-2.3 2.2-5.3 3.5-8.5 3.5H64v320h320v-101.8z"/></svg></span> Edit</span>
+                        </a>
+                    </div>
+                </div>
+                <h1 >
+                    
+                SYNTHIA-AL
+                </h1>
+
+                
+                    <span class="dataset-subtitle">Introduced by Bengar et al. in <a
+                            href="/paper/temporal-coherence-for-active-learning-in">Temporal Coherence for Active Learning in Videos</a></span>
+                
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="d-md-none mb-3">
+      
+      <a href="https://production-assets.paperswithcode.com/perf/images/default_dataset-efab89e8.jpeg" data-lightbox="imageresource-mobile">
+        <img id="imageresource-mobile" class="d-md-none" src="https://production-assets.paperswithcode.com/perf/images/default_dataset-efab89e8.jpeg">
+      </a>
+      
+    </div>
+
+    <div class="dataset-content">
+
+        <div class="row">
+            <div class="col-md-9 description">
+                
+
+                <div class="description-content">
+                    <p>Specially designed to evaluate active learning for video object detection in road scenes. </p>
+                    
+                        <span class="description-source">
+                            Source: <a href="/paper/temporal-coherence-for-active-learning-in"><span class=" icon-wrapper icon-ion" data-name="document-outline"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path d="M416 221.25V416a48 48 0 0 1-48 48H144a48 48 0 0 1-48-48V96a48 48 0 0 1 48-48h98.75a32 32 0 0 1 22.62 9.37l141.26 141.26a32 32 0 0 1 9.37 22.62z" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="32"/><path d="M256 56v120a32 32 0 0 0 32 32h120" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span> Temporal Coherence for Active Learning in Videos</a>
+                        </span>
+                    
+
+                </div>
+
+                <div class="context">
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                            <a href="http://synthia-dataset.net/downloads/" onclick="captureOutboundLink('http://synthia-dataset.net/downloads/'); return true;" class="btn btn-primary-outline dataset-homepage">
+                                Homepage
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                    <div id="benchmarks" class="collapsed">
+                <h4>Benchmarks
+                    <div class="float-right">
+                        <div class="dropdown edit-button">
+                            <button class="dropdown-toggle badge badge-edit"
+                                    type="button" id="evalEditMenu"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                <span class=" icon-wrapper icon-fa icon-fa-solid" data-name="edit"><svg viewBox="0 0 576 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M402.6 85.198l90.2 90.2c3.8 3.8 3.8 10 0 13.8l-218.399 218.4-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8 218.4-218.4c3.799-3.8 10-3.8 13.799 0zm162-22.9c15.2 15.2 15.2 39.9 0 55.2l-35.4 35.4c-3.8 3.8-10 3.8-13.8 0l-90.2-90.2c-3.8-3.8-3.8-10 0-13.8l35.4-35.4c15.3-15.2 40-15.2 55.2 0zM384 348.198c0-3.2 1.3-6.2 3.5-8.5l40-40c7.6-7.5 20.5-2.2 20.5 8.5v157.8c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h285.8c10.7 0 16.1 12.9 8.5 20.5l-40 40c-2.3 2.2-5.3 3.5-8.5 3.5H64v320h320v-101.8z"/></svg></span>
+                                Edit
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end"
+                                 aria-labelledby="evalEditMenu">
+                                <a class="dropdown-item"
+                                   href="#loginModal"
+                                   data-bs-toggle="modal">
+                                    <span class=" icon-wrapper icon-ion" data-name="add"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 112v288m144-144H112"/></svg></span>
+                                    Add a new result</a>
+                                <a class="dropdown-item"
+                                   href="#loginModal"
+                                   data-bs-toggle="modal">
+                                    <span class=" icon-wrapper icon-ion" data-name="create-outline"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path d="M384 224v184a40 40 0 0 1-40 40H104a40 40 0 0 1-40-40V168a40 40 0 0 1 40-40h167.48" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M459.94 53.25a16.06 16.06 0 0 0-23.22-.56L424.35 65a8 8 0 0 0 0 11.31l11.34 11.32a8 8 0 0 0 11.34 0l12.06-12c6.1-6.09 6.67-16.01.85-22.38zM399.34 90L218.82 270.2a9 9 0 0 0-2.31 3.93L208.16 299a3.91 3.91 0 0 0 4.86 4.86l24.85-8.35a9 9 0 0 0 3.93-2.31L422 112.66a9 9 0 0 0 0-12.66l-9.95-10a9 9 0 0 0-12.71 0z"/></svg></span>
+                                    Link an existing benchmark</a>
+                            </div>
+                        </div>
+                    </div>
+                </h4>
+                    <hr>
+
+            
+            <div class="dataset-no-benchmarks-badge">
+                No benchmarks yet.
+                <a href="#loginModal"
+                   data-bs-toggle="modal">Start a new benchmark</a> or
+                <a href="#loginModal"
+                                   data-bs-toggle="modal">link an existing one</a>.
+            </div>
+            
+        </div>
+
+        <div id="papers" class="dataset-papers">
+            <h4 style="margin-bottom: 0.5rem">Papers</h4>
+            <hr>
+
+            
+
+<div class="sota-table-preview papers-datatable-component">
+  <table style="width: 100% !important;" id="datatable-papers" class="table-striped table-responsive">
+      <thead style="width: 100% !important;">
+          <tr>
+              <th style="text-left"><span>Paper</span></th>
+              <th class="text-center"><span>Code</span></th>
+              <th class="text-center"><span>Results</span></th>
+              <th class="text-right"><span>Date</span></th>
+              <th class="text-center"><span>Stars</span></th>
+          </tr>
+      </thead>
+  </table>
+</div>
+
+<script>
+  
+      const DATATABLE_PAPERS_FILTER_NAME = 'paperdataset__dataset_id';
+      const DATATABLE_PAPERS_FILTER_VALUE = '5424';
+    
+</script>
+
+        </div>
+
+
+        <div class="dataloader-container">
+            <div>
+                <h4>
+                    Dataset Loaders
+                    <div class="float-right">
+                        <div class="dropdown edit-button" style="position: relative; top: -5px">
+                            <button class="dropdown-toggle badge badge-edit" type="button"
+                                    id="loaderEditMenu"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                <span class=" icon-wrapper icon-fa icon-fa-solid" data-name="edit"><svg viewBox="0 0 576 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M402.6 85.198l90.2 90.2c3.8 3.8 3.8 10 0 13.8l-218.399 218.4-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8 218.4-218.4c3.799-3.8 10-3.8 13.799 0zm162-22.9c15.2 15.2 15.2 39.9 0 55.2l-35.4 35.4c-3.8 3.8-10 3.8-13.8 0l-90.2-90.2c-3.8-3.8-3.8-10 0-13.8l35.4-35.4c15.3-15.2 40-15.2 55.2 0zM384 348.198c0-3.2 1.3-6.2 3.5-8.5l40-40c7.6-7.5 20.5-2.2 20.5 8.5v157.8c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h285.8c10.7 0 16.1 12.9 8.5 20.5l-40 40c-2.3 2.2-5.3 3.5-8.5 3.5H64v320h320v-101.8z"/></svg></span>
+                                Edit
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end"
+                                 aria-labelledby="loaderEditMenu">
+                                <a class="dropdown-item"
+                                   href="#loginModal"
+                                   data-bs-toggle="modal">
+                                    <span class=" icon-wrapper icon-ion" data-name="add"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 112v288m144-144H112"/></svg></span>
+                                    Add</a>
+                                <a class="dropdown-item"
+                                   href="#loginModal"
+                                   data-bs-toggle="modal">
+                                    <span class=" icon-wrapper icon-ion" data-name="remove"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M400 256H112"/></svg></span>
+                                    Remove</a>
+                            </div>
+                        </div>
+                </h4>
+                <hr>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    
+                        <div class="dataloader-empty">
+                            No data loaders found. You can
+                            <a href="#loginModal" data-bs-toggle="modal">
+                                submit your data loader here.
+                            </a>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+
+                
+
+
+        <div class="collections">
+            <h4>
+                Tasks
+
+                <div class="float-right">
+
+                    <div class="dropdown edit-button" style="position: relative; top: -5px">
+                        <button class="badge badge-edit" type="button"
+                                data-bs-target="#loginModal"
+                                data-bs-toggle="modal"
+                                aria-haspopup="true" aria-expanded="false">
+                            <span class=" icon-wrapper icon-fa icon-fa-solid" data-name="edit"><svg viewBox="0 0 576 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M402.6 85.198l90.2 90.2c3.8 3.8 3.8 10 0 13.8l-218.399 218.4-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8 218.4-218.4c3.799-3.8 10-3.8 13.799 0zm162-22.9c15.2 15.2 15.2 39.9 0 55.2l-35.4 35.4c-3.8 3.8-10 3.8-13.8 0l-90.2-90.2c-3.8-3.8-3.8-10 0-13.8l35.4-35.4c15.3-15.2 40-15.2 55.2 0zM384 348.198c0-3.2 1.3-6.2 3.5-8.5l40-40c7.6-7.5 20.5-2.2 20.5 8.5v157.8c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h285.8c10.7 0 16.1 12.9 8.5 20.5l-40 40c-2.3 2.2-5.3 3.5-8.5 3.5H64v320h320v-101.8z"/></svg></span>
+                            Edit
+                        </button>
+                </div>
+            </h4>
+        <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-unstyled">
+                
+                    <li>
+                        <a href="/task/object-detection">
+                            <span class="badge badge-primary">
+                                
+                                    <img src="https://production-media.paperswithcode.com/thumbnails/task/db448496-97b7-4d7a-90bb-6699631f7071.jpg">
+                                
+                                <span>Object Detection</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/task/video-object-detection">
+                            <span class="badge badge-primary">
+                                
+                                    <img src="https://production-media.paperswithcode.com/thumbnails/task/6f9c5c9e-b5fc-4ce3-b423-a3b196f0252c.jpg">
+                                
+                                <span>Video Object Detection</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/task/active-learning">
+                            <span class="badge badge-primary">
+                                
+                                    <img src="https://production-media.paperswithcode.com/tasks/default.gif">
+                                
+                                <span>Active Learning</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                </ul>
+            </div>
+        </div>
+
+
+
+        
+
+
+        <div class="dataset-similar">
+            <h4>
+                Similar Datasets
+            </h4>
+        <hr>
+        </div>
+
+        <div class="row">
+          <div class="col dataset-similar">
+
+              <div class="row">
+                  <div class="col-md-12 featured-dataset">
+                      <div class="card-deck card-break"
+                          style="margin-bottom:20px;">
+
+                          
+                              
+                              <div class="card" style="min-height:120px">
+                                  <a href="/dataset/virtual-kitti-2">
+
+                                      <div class="row">
+                                          <div class="col-lg-12">
+                                              
+                                                  <div class="item-image" style="background-image: url(https://production-media.paperswithcode.com/datasets/Screenshot_2021-07-21_at_17.24.19_hRZ24UH.png);"> </div>
+                                              
+                                          </div>
+                                      </div>
+                                      <div class=row">
+
+                                          <h1>Virtual KITTI 2</h1>
+
+                                      </div>
+                                  </a>
+                              </div>
+                              
+                          
+                              
+                              <div class="card" style="min-height:120px">
+                                  <a href="/dataset/presil">
+
+                                      <div class="row">
+                                          <div class="col-lg-12">
+                                              
+                                              <div class="item-image" style="background-color: #A59F78;opacity: 0.3;">
+                                                <span class="dataset-img-icon"><span class=" icon-wrapper icon-fa icon-fa-solid" data-name="file"><svg viewBox="0 0 384 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M224 137.998c0 13.2 10.8 24 24 24h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24v-464c0-13.3 10.7-24 24-24h200v136zm160-14.1v6.1H256v-128h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/></svg></span></span>
+                                                <span class="dataset-img-text">PreSIL</span>
+                                              </div>
+                                              
+                                          </div>
+                                      </div>
+                                      <div class=row">
+
+                                          <h1>PreSIL</h1>
+
+                                      </div>
+                                  </a>
+                              </div>
+                              
+                          
+                              
+                              <div class="card" style="min-height:120px">
+                                  <a href="/dataset/idda">
+
+                                      <div class="row">
+                                          <div class="col-lg-12">
+                                              
+                                              <div class="item-image" style="background-color: #A395C6;opacity: 0.3;">
+                                                <span class="dataset-img-icon"><span class=" icon-wrapper icon-fa icon-fa-solid" data-name="images"><svg viewBox="0 0 576 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M480 417.998v16c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48v-256c0-26.51 21.49-48 48-48h16v208c0 44.113 35.888 80 80 80h336zm96-80c0 26.51-21.49 48-48 48H144c-26.51 0-48-21.49-48-48v-256c0-26.51 21.49-48 48-48h384c26.51 0 48 21.49 48 48v256zm-320-208c0-26.51-21.49-48-48-48s-48 21.49-48 48 21.49 48 48 48 48-21.49 48-48zm-96 144v48h352v-112l-87.514-87.514c-4.687-4.687-12.285-4.687-16.971 0L272 257.999l-39.514-39.515c-4.688-4.686-12.285-4.686-16.972 0z"/></svg></span></span>
+                                                <span class="dataset-img-text">IDDA</span>
+                                              </div>
+                                              
+                                          </div>
+                                      </div>
+                                      <div class=row">
+
+                                          <h1>IDDA</h1>
+
+                                      </div>
+                                  </a>
+                              </div>
+                              
+                          
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        
+
+
+            </div>
+            <div class="col-md-3 dataset-infobox">
+                
+            
+        <div id="trends">
+            <h4>Usage
+            <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+                  title="Approximate number of open-access papers mentioning the dataset in the last five years."
+                  style="font-size: 16px; vertical-align: text-bottom; color: #444;"
+            >
+                <span class=" icon-wrapper icon-ion" data-name="flask-outline"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path fill="none" stroke="#000" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M176 48h160M118 304h276M208 48v93.48a64.09 64.09 0 0 1-9.88 34.18L73.21 373.49C48.4 412.78 76.63 464 123.08 464h265.84c46.45 0 74.68-51.22 49.87-90.51L313.87 175.66a64.09 64.09 0 0 1-9.87-34.18V48"/></svg></span>
+            </span>
+            </h4>
+            <hr>
+            <figure class="highcharts-figure">
+                <div id="container"></div>
+            </figure>
+        </div>
+            
+
+        <div class="license">
+            <h4>License<a href="/datasets/license" target="_blank" class="datasets-license-info"><span class=" icon-wrapper icon-ion" data-name="information-circle-outline"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path d="M248 64C146.39 64 64 146.39 64 248s82.39 184 184 184 184-82.39 184-184S349.61 64 248 64z" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M220 220h32v116"/><path fill="none" stroke="#000" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M208 340h88"/><path d="M248 130a26 26 0 1 0 26 26 26 26 0 0 0-26-26z"/></svg></span></a>
+                <div class="float-right">
+                    <div class="dropdown edit-button" style="position: relative; top: -5px">
+                        <button class="badge badge-edit" type="button"
+                                data-bs-target="#loginModal"
+                                data-bs-toggle="modal"
+                                aria-haspopup="true" aria-expanded="false">
+                            <span class=" icon-wrapper icon-fa icon-fa-solid" data-name="edit"><svg viewBox="0 0 576 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M402.6 85.198l90.2 90.2c3.8 3.8 3.8 10 0 13.8l-218.399 218.4-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8 218.4-218.4c3.799-3.8 10-3.8 13.799 0zm162-22.9c15.2 15.2 15.2 39.9 0 55.2l-35.4 35.4c-3.8 3.8-10 3.8-13.8 0l-90.2-90.2c-3.8-3.8-3.8-10 0-13.8l35.4-35.4c15.3-15.2 40-15.2 55.2 0zM384 348.198c0-3.2 1.3-6.2 3.5-8.5l40-40c7.6-7.5 20.5-2.2 20.5 8.5v157.8c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h285.8c10.7 0 16.1 12.9 8.5 20.5l-40 40c-2.3 2.2-5.3 3.5-8.5 3.5H64v320h320v-101.8z"/></svg></span>
+                            Edit
+                        </button>
+                </div>
+            </h4>
+            <hr>
+            <ul class="list-unstyled">
+                <li>
+                
+                    <span class="license-static-badge">
+                        
+                            
+                               Unknown
+                            
+                        
+                    </span>
+                
+                </li>
+            </ul>
+        </div>
+
+        <div class="collections">
+            <h4>
+                Modalities
+
+                <div class="float-right">
+
+                    <div class="dropdown edit-button" style="position: relative; top: -5px">
+                        <button class="badge badge-edit" type="button"
+                                data-bs-target="#loginModal"
+                                data-bs-toggle="modal"
+                                aria-haspopup="true" aria-expanded="false">
+                            <span class=" icon-wrapper icon-fa icon-fa-solid" data-name="edit"><svg viewBox="0 0 576 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M402.6 85.198l90.2 90.2c3.8 3.8 3.8 10 0 13.8l-218.399 218.4-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8 218.4-218.4c3.799-3.8 10-3.8 13.799 0zm162-22.9c15.2 15.2 15.2 39.9 0 55.2l-35.4 35.4c-3.8 3.8-10 3.8-13.8 0l-90.2-90.2c-3.8-3.8-3.8-10 0-13.8l35.4-35.4c15.3-15.2 40-15.2 55.2 0zM384 348.198c0-3.2 1.3-6.2 3.5-8.5l40-40c7.6-7.5 20.5-2.2 20.5 8.5v157.8c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h285.8c10.7 0 16.1 12.9 8.5 20.5l-40 40c-2.3 2.2-5.3 3.5-8.5 3.5H64v320h320v-101.8z"/></svg></span>
+                            Edit
+                        </button>
+                </div>
+            </h4>
+        <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-unstyled">
+                
+                    <li>
+
+                        <a href="/datasets?mod=videos">
+                            <span class="badge badge-primary">
+                                <span class=" icon-wrapper icon-fa icon-fa-solid" data-name="film"><svg viewBox="0 0 512 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M488 65.998c13.3 0 24 10.7 24 24v336c0 13.3-10.7 24-24 24h-8v-20c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v20H96v-20c0-6.6-5.4-12-12-12H44c-6.6 0-12 5.4-12 12v20h-8c-13.3 0-24-10.7-24-24v-336c0-13.3 10.7-24 24-24h8v20c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-20h320v20c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-20h8zm-392 308v-40c0-6.6-5.4-12-12-12H44c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm0-96v-40c0-6.6-5.4-12-12-12H44c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm0-96v-40c0-6.6-5.4-12-12-12H44c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm272 208v-96c0-6.6-5.4-12-12-12H156c-6.6 0-12 5.4-12 12v96c0 6.6 5.4 12 12 12h200c6.6 0 12-5.4 12-12zm0-168v-96c0-6.6-5.4-12-12-12H156c-6.6 0-12 5.4-12 12v96c0 6.6 5.4 12 12 12h200c6.6 0 12-5.4 12-12zm112 152v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm0-96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm0-96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12z"/></svg></span>
+                                <span>Videos</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                </ul>
+            </div>
+        </div>
+
+        <div class="languages">
+            <h4>
+                Languages
+
+                <div class="float-right">
+
+                    <div class="dropdown edit-button" style="position: relative; top: -5px">
+                        <button class="badge badge-edit" type="button"
+                                data-bs-target="#loginModal"
+                                data-bs-toggle="modal"
+                                aria-haspopup="true" aria-expanded="false">
+                            <span class=" icon-wrapper icon-fa icon-fa-solid" data-name="edit"><svg viewBox="0 0 576 514.999" xmlns="http://www.w3.org/2000/svg"><path d="M402.6 85.198l90.2 90.2c3.8 3.8 3.8 10 0 13.8l-218.399 218.4-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8 218.4-218.4c3.799-3.8 10-3.8 13.799 0zm162-22.9c15.2 15.2 15.2 39.9 0 55.2l-35.4 35.4c-3.8 3.8-10 3.8-13.8 0l-90.2-90.2c-3.8-3.8-3.8-10 0-13.8l35.4-35.4c15.3-15.2 40-15.2 55.2 0zM384 348.198c0-3.2 1.3-6.2 3.5-8.5l40-40c7.6-7.5 20.5-2.2 20.5 8.5v157.8c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h285.8c10.7 0 16.1 12.9 8.5 20.5l-40 40c-2.3 2.2-5.3 3.5-8.5 3.5H64v320h320v-101.8z"/></svg></span>
+                            Edit
+                        </button>
+                </div>
+            </h4>
+        <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-unstyled">
+                
+                
+                </ul>
+            </div>
+        </div>
+
+
+            
+            </div>
+
+        </div>
+
+
+        <div id="tasks">
+            
+        </div>
+
+        
+    </div>
+    </div>
+
+    
+      <script id="time_series_data" type="application/json">[{"name": "SYNTHIA-AL", "data": [{"time": "2021-01-01", "prop": 0}, {"time": "2023-01-01", "prop": 3}, {"time": "2025-01-01", "prop": 1}]}, {"name": "Virtual KITTI 2", "data": [{"time": "2021-01-01", "prop": 4}, {"time": "2022-01-01", "prop": 8}, {"time": "2023-01-01", "prop": 9}, {"time": "2024-01-01", "prop": 16}, {"time": "2025-01-01", "prop": 3}]}, {"name": "PreSIL", "data": [{"time": "2021-01-01", "prop": 2}, {"time": "2022-01-01", "prop": 3}, {"time": "2023-01-01", "prop": 2}, {"time": "2024-01-01", "prop": 1}, {"time": "2025-01-01", "prop": 0}]}, {"name": "IDDA", "data": [{"time": "2021-01-01", "prop": 0}, {"time": "2022-01-01", "prop": 2}, {"time": "2023-01-01", "prop": 2}, {"time": "2025-01-01", "prop": 0}]}]</script>
+      <script>const HAS_TIME_SERIES_DATA = true;</script>
+    
+
+    
+      <script>const SHOW_EDIT_DATASET_MODAL = false;</script>
+    
+
+    
+      <script>const SHOW_ADD_LOADERS_MODAL = false;</script>
+    
+
+    <script>const TASK_DATASET_METRIC_URL = "/api/task-dataset-metric/";</script>
+    <script>const SEARCH_AUTOCOMPLETE_URL = "/api/search-autocomplete/";</script>
+    <script>const LOCKED_TASKS = new Set([]);</script>
+
+
+
+</div>
+
+
+
+
+
+<div class="footer">
+  <div class="footer-contact">
+    <span class="footer-contact-item">Contact us on:</span>
+
+    <a class="footer-contact-item" href="mailto:hello@paperswithcode.com">
+    <span class=" icon-wrapper icon-ion" data-name="mail"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path d="M424 80H88a56.06 56.06 0 0 0-56 56v240a56.06 56.06 0 0 0 56 56h336a56.06 56.06 0 0 0 56-56V136a56.06 56.06 0 0 0-56-56zm-14.18 92.63l-144 112a16 16 0 0 1-19.64 0l-144-112a16 16 0 1 1 19.64-25.26L256 251.73l134.18-104.36a16 16 0 0 1 19.64 25.26z"/></svg></span> hello@paperswithcode.com
+    </a>.
+    <span class="footer-contact-item">
+        Papers With Code is a free resource with all data licensed under <a rel="noreferrer" href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA</a>.
+    </span>
+  </div>
+
+  <div class="footer-links">
+      <a href="/site/terms">Terms</a>
+      <a href="/site/data-policy">Data policy</a>
+      <a href="/site/cookies-policy">Cookies policy</a>
+      <a href="/about#team" class="fair-logo"> from
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAAAgCAMAAABU6AZfAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAABFUExURUdwTBwqMhwqMxsqMhkqMxsqMhwqMgCA+hwrMxJIgBsrMxsqMgJ28AF58wF38BsqMwB58hsqMwF17wF07hwrMwRm4QJz7Wj6SIIAAAAUdFJOUwDP87wcPIT+4A1tVti1Ta0smZVzG3JP8wAABR9JREFUWMO1memWpCoMgF0QxX1//0e9kCAkAadq5tzKjzndQmM+szNFEWQ9puu6xn02BXm4j23bTsdapKJAMguFgRVT/Ejyx4uH5hgvL1PUfm69jEd6bN05GTJvXF5X/hfRcPyWe2kTLDFdRA4ENVMbZZJGMt3ppEttNMDC2X/Qa7MK1OrveZoKz2/445I+U4znuvaExxKZLFCqtym/A6rzn+OjbHj8ubwDmfESslvtgWea13WeckQPUKJTf/4USHkDnVXzCrT74DnmeX+8rjgcxA4QBmPpyAKdOm+5XwFpgHH/bG9AMzLMqM9DxxCQaM0qLr7U4xE/AgIDVRBHlcoDeYd7lFee6GZOBvaaskD8S6nut0Dg0ItZEt+IQAfjseIzRDvS/WCxWQJ17phqEGqepQBS/VaXZa0H/4XUYMVt6nr309DEjYvduPT2gWELQTr0iQbC1+SADOg/kjVvspGqX6zSRAgEKbqOf6zgd82AVB+8s0YNm5NL6Y8MGzttwKt0krP9+9A/+hzQTALoUX5MnxW7iCIEUmD7IVZb8G0G1HRE9UqbWKkEUFPSR0MWqH5eB65XmgzQdN3WGjxReROxPD2LROeBIEiD7UGLraBAjMcS9W9AquTPckBgoMqEWG1SIGN57otn5KO9Y30N4rq6MQFC5TX1cEWBfJLY+mbQ5ZMUm8UK7F1A9GNc90T3enkpCZhCdUzfdQq0Wp774gnZao55YU3SgkmAVBez1eDfR4BABd/XqY36ichyaLUnyJZ8jatimUBjqQTouK2M3OGs4miiiduN5bkHCL15C9Zw7heBRMHYSMRxIGyYFsPqpwTqactT8w0P0OSA9iRY9jQvrDyIAhCoAjrrR90I1PNCpcivHEh+cATUmS5xoCaNB3ggMzqgRO/RYPIb1WviDkB4sv22kB8ghQcgUIFWzyUmaQ6kpf5DCoTFh5fwQQCt493e9ypD5Xjq7S5cMQeEubpBf2oKCoSMohPzduBAi2yimhRIc3NvrOd+gCxPexvhcGPM3SRoJpbmIhAGSudTNgNCR+qIRL05UCebsxTIiAYOX6sEkONphRkw9A9ZjADIZIDg857we5MBSiQHVMlWJgXyeTBIyVpGD4RttHC4yVtENHn7K5ASdeM3QGX2sKcKBCBmITYmrGii9TOQT7JYwxOgrhbyby4XJrvs54kuR8vlCg4XEgEOEs8Q8R5DYZboCwEESpTmi/Hhc1Lo8zxPlghZjpbLqWVGUGxSes1y4W2lkkC+Wf0C6GPaxtZo0VQW4nOhsJLqAg01HXqgGN0+083MegKoYLdisbDqzHVG1iZJYe0EUDoB+dj149gDRCCgt2lZ1zA5nhvCyEwvrc/b3N/HiZlMgINmZaR/aX3MJluf7Kepo8+F5tRfUh1wR0odzg8Srnm9w7L5SyB/p6H9Ptt0Vj310ngAlDHbnLo3mGc00sJiQ+4KEM+I8xC7fWv5VGcz3Y0C2ZCa70sgf0tXbnbY1jXpln3W6jYXDG4jNthdrfVWn8n4gAVAZe+0GgaEaeGFx4XRQyTM9yWQnNuIAy5/HPAWPuDJ8Yc66sYvSeY/8dhlYqH0kuQzkFQ03nnHCyI/gtc0GfM7BVPmL5J0yHPkXm6d3u6v/TLw3GL5ayDr6WW47awHYmS1VC+XJOVQcCCZBPk13SCvgmcb8uI/UqjqdvlOlk3j5OU20C0putdO1ZWNo0a8oumXslx0vMYaNrfPURt2hnp5G2rhtsEP5j/3Wqt0fQd1YgAAAABJRU5ErkJggg==">
+      </a>
+  </div>
+</div>
+
+
+
+<script>
+  // MathJax
+  window.MathJax = {
+    tex: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+    },
+  };
+
+  const mathjaxScript = document.createElement("script");
+  mathjaxScript.src = "https://production-assets.paperswithcode.com/static/js/mathjax/tex-chtml.js";
+  document.head.appendChild(mathjaxScript);
+</script>
+
+
+<script src="https://production-assets.paperswithcode.com/perf/766.4af6b88b.js" defer></script><script src="https://production-assets.paperswithcode.com/perf/2.6da00df7.js" defer></script><script src="https://production-assets.paperswithcode.com/perf/814.49dcf06c.js" defer></script><script src="https://production-assets.paperswithcode.com/perf/view_dataset.22fdaf24.js" defer></script>
+
+
+
+</body>
+</html>
+
+

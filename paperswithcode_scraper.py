@@ -125,7 +125,7 @@ def extract_areas_from_sota_page():
         # Fallback to a list of predefined areas
         logger.info("Using fallback list of areas")
         return [
-            {'name': 'Computer Vision', 'url': 'https://paperswithcode.com/area/computer-vision'},
+            # {'name': 'Computer Vision', 'url': 'https://paperswithcode.com/area/computer-vision'},
             {'name': 'Natural Language Processing', 'url': 'https://paperswithcode.com/area/natural-language-processing'},
             {'name': 'Medical', 'url': 'https://paperswithcode.com/area/medical'},
             {'name': 'Methodology', 'url': 'https://paperswithcode.com/area/methodology'},
@@ -142,6 +142,8 @@ def extract_areas_from_sota_page():
             {'name': 'Multimodal', 'url': 'https://paperswithcode.com/area/multimodal'},
             {'name': 'Recommender Systems', 'url': 'https://paperswithcode.com/area/recommender-systems'}
         ]
+    else:
+        html_content = html_content[1:]
     
     soup = BeautifulSoup(html_content, 'html.parser')
     
