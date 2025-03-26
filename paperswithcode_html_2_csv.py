@@ -10,7 +10,7 @@ and extracts relevant dataset metadata into a CSV file.
 Usage:
     python paperswithcode_html_2_csv.py
 
-The script will read all HTML files in the 'paperswithcode' directory
+The script will read all HTML files in the 'paperswithcode/consolidated' directory
 and generate a CSV file with dataset metadata.
 """
 
@@ -31,7 +31,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Constants
-HTML_DIR = "paperswithcode"
+HTML_DIR = os.path.join("paperswithcode", "consolidated")
 CSV_DIR = "csv"
 OUTPUT_CSV = os.path.join(CSV_DIR, "paperswithcode_datasets.csv")
 PROGRESS_FILE = "pwc_extraction_progress.json"
@@ -50,7 +50,7 @@ def setup_csv_file(csv_path: str) -> None:
         "dataset_id",
         "dataset_name",
         "description",
-        "source_url",
+        "homepage_url",
         "license",
         "modalities",
         "languages",
@@ -156,28 +156,77 @@ def extract_dataset_description(soup: BeautifulSoup) -> str:
     
     return ""
 
-def extract_source_url(soup: BeautifulSoup) -> str:
+def extract_homepage_url(soup: BeautifulSoup) -> str:
     """
-    Extract the source URL from the page.
+    Extract the dataset homepage URL from the dataset page.
     
     Args:
         soup: BeautifulSoup object
         
     Returns:
-        Source URL
+        Dataset homepage URL
     """
-    # Try to find the source URL in the description source
-    source_link = soup.select_one('span.description-source a')
-    if source_link and source_link.get('href'):
-        return source_link.get('href').strip()
+    # First priority: Look for the Homepage button
+    homepage_button = soup.select_one('a.btn.btn-primary-outline.dataset-homepage')
+    if homepage_button and homepage_button.get('href'):
+        href = homepage_button.get('href').strip()
+        logger.info(f"Found dataset homepage URL: {href}")
+        return href
     
-    # Try to find any external link that might be the source
-    external_links = soup.select('a[href^="http"]')
-    for link in external_links:
-        href = link.get('href', '')
-        if 'github.com' in href or 'dataset' in href or 'data' in href:
+    # Second priority: Look for dataset source link - this is the direct link to the dataset repository
+    dataset_source = soup.select_one('div.dataset-source a')
+    if dataset_source and dataset_source.get('href'):
+        href = dataset_source.get('href').strip()
+        # Ensure it's not a paper URL or an internal PWC link
+        if not href.startswith('/paper/') and not href.startswith('https://paperswithcode.com'):
+            logger.info(f"Found dataset source URL: {href}")
             return href
     
+    # Look for external links that might be dataset repositories
+    external_links = soup.select('a.badge-external')
+    for link in external_links:
+        href = link.get('href', '').strip()
+        # Skip paper links and PWC internal links
+        if href and not href.startswith('/paper/') and not href.startswith('https://paperswithcode.com') and not 'arxiv.org' in href:
+            # Prioritize GitHub, Hugging Face, or other common dataset repositories
+            if any(repo in href.lower() for repo in ['github.com', 'huggingface.co', 'kaggle.com', 'tensorflow.org/datasets', 'pytorch.org']):
+                logger.info(f"Found dataset external URL (repository): {href}")
+                return href
+    
+    # Try again with all external links if we haven't found a good one yet
+    for link in external_links:
+        href = link.get('href', '').strip()
+        if href and not href.startswith('/paper/') and not href.startswith('https://paperswithcode.com') and not 'arxiv.org' in href:
+            logger.info(f"Found dataset external URL: {href}")
+            return href
+    
+    # If we still haven't found a source URL, look for any link in the dataset description
+    description = soup.select_one('div.markdown-body')
+    if description:
+        links = description.select('a')
+        for link in links:
+            href = link.get('href', '').strip()
+            if href and not href.startswith('/paper/') and not href.startswith('https://paperswithcode.com') and not 'arxiv.org' in href:
+                logger.info(f"Found dataset URL in description: {href}")
+                return href
+    
+    # Also check for links in the description content
+    description_content = soup.select_one('div.description-content')
+    if description_content:
+        links = description_content.select('a')
+        for link in links:
+            href = link.get('href', '').strip()
+            # Skip internal PWC links and paper links
+            if href and not href.startswith('/paper/') and not href.startswith('https://paperswithcode.com') and not 'arxiv.org' in href:
+                logger.info(f"Found dataset URL in description content: {href}")
+                return href
+    
+    # Default to the dataset image as a last resort (not ideal but keeps the format consistent)
+    dataset_image = soup.select_one('img.dataset-image')
+    if dataset_image and dataset_image.get('src'):
+        return dataset_image.get('src').strip()
+    
+    logger.warning("No dataset homepage URL found")
     return ""
 
 def extract_license(soup: BeautifulSoup) -> str:
@@ -307,13 +356,40 @@ def extract_paper_info(soup: BeautifulSoup) -> Tuple[str, str]:
     Returns:
         Tuple of (paper_title, paper_url)
     """
-    # Find the paper section
+    # Find the paper section - first try the badge-paper link
     paper_link = soup.select_one('a.badge-paper')
     
     if paper_link:
         paper_title = paper_link.get_text(strip=True)
-        paper_url = "https://paperswithcode.com" + paper_link.get('href', '')
+        paper_url = paper_link.get('href', '')
+        # Make sure the URL is absolute
+        if paper_url and not paper_url.startswith('http'):
+            paper_url = "https://paperswithcode.com" + paper_url
         
+        return (paper_title, paper_url)
+    
+    # Try to find paper links in the dataset header
+    paper_links = soup.select('div.dataset-header a[href*="arxiv.org"]')
+    if paper_links:
+        paper_link = paper_links[0]
+        paper_title = paper_link.get_text(strip=True) or "Paper"
+        paper_url = paper_link.get('href', '')
+        return (paper_title, paper_url)
+    
+    # Look for any arxiv links on the page
+    arxiv_links = soup.select('a[href*="arxiv.org"]')
+    if arxiv_links:
+        paper_link = arxiv_links[0]
+        paper_title = paper_link.get_text(strip=True) or "Paper"
+        paper_url = paper_link.get('href', '')
+        return (paper_title, paper_url)
+    
+    # Look for links to PDF files which might be papers
+    pdf_links = soup.select('a[href$=".pdf"]')
+    if pdf_links:
+        paper_link = pdf_links[0]
+        paper_title = paper_link.get_text(strip=True) or "Paper"
+        paper_url = paper_link.get('href', '')
         return (paper_title, paper_url)
     
     return ("", "")
@@ -482,6 +558,71 @@ def infer_modalities_from_tasks(tasks: str) -> str:
     
     return ', '.join(sorted(found_modalities))
 
+def extract_pwc_url(soup: BeautifulSoup, file_path: str) -> str:
+    """
+    Extract the Papers With Code URL from the page.
+    
+    Args:
+        soup: BeautifulSoup object
+        file_path: Path to the HTML file (used as fallback)
+        
+    Returns:
+        Papers With Code URL
+    """
+    # For debugging
+    dataset_name = os.path.basename(file_path)
+    if dataset_name.endswith('.html'):
+        dataset_name = dataset_name[:-5]  # Remove .html extension
+    
+    logger.info(f"Extracting URL for dataset: {dataset_name}")
+    
+    # Try to extract from the Open Graph URL (highest priority)
+    # Use exact attribute matching for the og:url meta tag
+    for meta in soup.find_all('meta'):
+        if meta.get('property') == 'og:url' and meta.get('content'):
+            return meta.get('content').strip()
+    
+    # Try to find the canonical URL in the meta tags
+    canonical_link = soup.find('link', rel='canonical')
+    if canonical_link and canonical_link.get('href'):
+        return canonical_link.get('href').strip()
+    
+    # Try to find the dataset URL from breadcrumbs
+    breadcrumbs = soup.select('ol.breadcrumb li a')
+    for link in breadcrumbs:
+        href = link.get('href', '')
+        if '/dataset/' in href:
+            return "https://paperswithcode.com" + href
+    
+    # Look for any link that contains '/dataset/' in the href
+    dataset_links = soup.select('a[href*="/dataset/"]')
+    for link in dataset_links:
+        href = link.get('href', '')
+        if href.startswith('/'):
+            return "https://paperswithcode.com" + href
+        elif href.startswith('http'):
+            return href
+    
+    # Extract dataset name from the title as a last resort
+    title = soup.title.string if soup.title else ""
+    if title:
+        # Extract the part before " | Papers With Code"
+        match = re.search(r'^(.*?)\s+Dataset\s+\|\s+Papers With Code', title)
+        if match:
+            dataset_name = match.group(1).strip()
+            dataset_slug = re.sub(r'[^\w]', '-', dataset_name.lower())
+            dataset_slug = re.sub(r'-+', '-', dataset_slug)  # Replace multiple hyphens with a single one
+            return f"https://paperswithcode.com/dataset/{dataset_slug}"
+    
+    # Extract dataset name from file path as a last resort
+    file_name = os.path.basename(file_path)
+    if file_name.endswith('.html'):
+        dataset_name = file_name[:-5]  # Remove .html extension
+        return f"https://paperswithcode.com/dataset/{dataset_name}"
+    
+    logger.warning(f"Could not extract URL for {file_path}")
+    return ""
+
 def process_html_file(file_path: str) -> Optional[Dict[str, Any]]:
     """
     Process an HTML file and extract dataset information.
@@ -506,8 +647,8 @@ def process_html_file(file_path: str) -> Optional[Dict[str, Any]]:
         soup = BeautifulSoup(html_content, 'html.parser')
         
         # Extract basic information
-        dataset_name = extract_dataset_name(soup)
         dataset_id = os.path.basename(file_path).replace('pwc_', '').replace('.html', '')
+        dataset_name = extract_dataset_name(soup)
         
         # Extract source URL from the canonical link
         canonical_link = soup.find('link', rel='canonical')
@@ -516,8 +657,8 @@ def process_html_file(file_path: str) -> Optional[Dict[str, Any]]:
         # Extract description
         description = extract_dataset_description(soup)
         
-        # Extract source URL
-        source_url = extract_source_url(soup)
+        # Extract dataset homepage URL
+        homepage_url = extract_homepage_url(soup)
         
         # Extract license
         license_info = extract_license(soup)
@@ -587,12 +728,15 @@ def process_html_file(file_path: str) -> Optional[Dict[str, Any]]:
             elif "Text" in modalities:
                 languages = "English"
         
+        # Extract Papers With Code URL
+        pwc_url = extract_pwc_url(soup, file_path)
+        
         # Combine all information
         dataset_info = {
             "dataset_id": dataset_id,
             "dataset_name": dataset_name,
             "description": description,
-            "source_url": source_url,
+            "homepage_url": homepage_url,
             "license": license_info,
             "modalities": modalities,
             "languages": languages,
@@ -656,79 +800,161 @@ def extract_datasets() -> None:
     """
     Main function to extract dataset information from HTML files.
     """
-    # Create CSV file with headers if it doesn't exist
-    if not os.path.exists(OUTPUT_CSV):
-        setup_csv_file(OUTPUT_CSV)
+    # Recreate the CSV file with the updated headers
+    setup_csv_file(OUTPUT_CSV)
+    logger.info(f"Created new CSV file with updated headers: {OUTPUT_CSV}")
     
-    # Get list of HTML files recursively from all subdirectories
+    # Get list of HTML files from the consolidated directory
     html_files = []
-    for root, dirs, files in os.walk(HTML_DIR):
-        for file in files:
+    if os.path.exists(HTML_DIR):
+        for file in os.listdir(HTML_DIR):
             if file.endswith('.html'):
-                html_files.append(os.path.join(root, file))
+                html_files.append(os.path.join(HTML_DIR, file))
     
     logger.info(f"Found {len(html_files)} HTML files")
     
-    # Load progress
+    # Process all files
+    logger.info(f"Processing all {len(html_files)} files")
+    
+    # Reset progress file to reprocess all files and get accurate statistics
+    if os.path.exists(PROGRESS_FILE):
+        os.remove(PROGRESS_FILE)
+        logger.info("Reset progress file for processing")
+    
+    # Load progress (will be empty after reset)
     processed_files = load_progress()
     
     # Process each HTML file
     datasets = []
     
-    for file_path in html_files:
-        # Skip already processed files
-        if file_path in processed_files:
-            logger.info(f"Skipping already processed file: {file_path}")
-            continue
+    # Counters for tracking
+    total_files = len(html_files)
+    processed_count = 0
+    dataset_page_count = 0
+    non_dataset_page_count = 0
+    successful_extraction_count = 0
+    error_count = 0
+    
+    # Process files in batches to avoid memory issues
+    batch_size = 100
+    for i in range(0, len(html_files), batch_size):
+        batch = html_files[i:i+batch_size]
+        logger.info(f"Processing batch {i//batch_size + 1}/{(len(html_files) + batch_size - 1)//batch_size}")
         
-        try:
-            # Extract area, task, and subtask from the file path
-            path_parts = os.path.normpath(file_path).split(os.sep)
-            # The structure is either:
-            # paperswithcode/area/task/dataset.html or
-            # paperswithcode/area/subtask/task/dataset.html
+        for file_path in batch:
+            processed_count += 1
             
-            area = path_parts[1] if len(path_parts) > 2 else ""
-            
-            if len(path_parts) == 4:  # paperswithcode/area/task/dataset.html
-                subtask = path_parts[2]  # Same as task in this case
-                task = path_parts[2]
-            elif len(path_parts) == 5:  # paperswithcode/area/subtask/task/dataset.html
-                subtask = path_parts[2]
-                task = path_parts[3]
-            else:
-                # Unexpected structure, use defaults
-                subtask = ""
-                task = ""
-            
-            dataset_info = process_html_file(file_path)
-            
-            if dataset_info:
-                # Add area, subtask, and task information
-                dataset_info['area'] = area.replace('_', ' ')
-                dataset_info['subtask'] = subtask.replace('_', ' ')
-                dataset_info['task'] = task.replace('_', ' ')
+            try:
+                # Read HTML content
+                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    html_content = f.read()
                 
-                # Write dataset to CSV immediately to avoid losing data
-                with open(OUTPUT_CSV, 'a', newline='', encoding='utf-8') as f:
-                    writer = csv.DictWriter(f, fieldnames=list(dataset_info.keys()))
-                    writer.writerow(dataset_info)
+                # Check if this is a dataset page
+                if not is_dataset_page(html_content):
+                    logger.info(f"{file_path} is not a dataset page, skipping")
+                    non_dataset_page_count += 1
+                    # Still mark as processed to avoid reprocessing
+                    processed_files.append(file_path)
+                    save_progress(processed_files)
+                    continue
                 
-                datasets.append(dataset_info)
+                dataset_page_count += 1
+                logger.info(f"Processing file: {file_path}")
+                dataset_info = process_html_file(file_path)
+                
+                if dataset_info:
+                    successful_extraction_count += 1
+                    # Since we don't have directory structure information anymore,
+                    # we'll try to extract area, task, and subtask from the dataset info itself
+                    
+                    # Default values
+                    area = ""
+                    subtask = ""
+                    task = ""
+                    
+                    # Try to extract from associated tasks
+                    associated_tasks = dataset_info.get('associated_tasks', '')
+                    if associated_tasks:
+                        tasks_list = [t.strip() for t in associated_tasks.split(',')]
+                        if tasks_list:
+                            # The first task is often the most relevant
+                            main_task = tasks_list[0]
+                            
+                            # Common areas in Papers With Code
+                            areas = ["Computer Vision", "Natural Language Processing", "Medical", 
+                                    "Methodology", "Graphs", "Audio", "Reinforcement Learning",
+                                    "Time Series", "Robotics", "Playing Games", "Reasoning",
+                                    "Adversarial", "Speech", "Generative Models", "Multimodal",
+                                    "Recommender Systems"]
+                            
+                            # Try to determine area from task
+                            for potential_area in areas:
+                                if potential_area.lower() in main_task.lower():
+                                    area = potential_area
+                                    break
+                            
+                            # If no area was found, use a default
+                            if not area and "Image" in dataset_info.get('modalities', ''):
+                                area = "Computer Vision"
+                            elif not area and "Text" in dataset_info.get('modalities', ''):
+                                area = "Natural Language Processing"
+                            elif not area and "Audio" in dataset_info.get('modalities', ''):
+                                area = "Audio"
+                            elif not area:
+                                area = "Methodology"  # Default fallback
+                            
+                            # Use the main task for both task and subtask
+                            task = main_task
+                            subtask = main_task
+                    
+                    dataset_info['area'] = area
+                    dataset_info['subtask'] = subtask
+                    dataset_info['task'] = task
+                    
+                    # Write dataset to CSV immediately to avoid losing data
+                    with open(OUTPUT_CSV, 'a', newline='', encoding='utf-8') as f:
+                        writer = csv.DictWriter(f, fieldnames=list(dataset_info.keys()))
+                        writer.writerow(dataset_info)
+                    
+                    datasets.append(dataset_info)
+                    
+                    # Log progress
+                    if successful_extraction_count % 10 == 0:
+                        logger.info(f"Successfully extracted {successful_extraction_count} datasets so far")
+                        logger.info(f"Last dataset: {dataset_info['dataset_name']} (Area: {area}, Task: {task})")
+                        logger.info(f"Dataset homepage URL: {dataset_info.get('homepage_url', '')}")
+                        logger.info(f"Paper URL: {dataset_info.get('paper_url', '')}")
+                        logger.info(f"PWC URL: {dataset_info['pwc_url']}")
+                
+                # Mark as processed regardless of extraction success
                 processed_files.append(file_path)
-                
-                # Save progress after each file
                 save_progress(processed_files)
                 
-                logger.info(f"Processed and saved dataset: {dataset_info['dataset_name']} (Area: {area}, Task: {task})")
-            else:
-                logger.warning(f"No dataset information extracted from {file_path}")
-                # Still mark as processed to avoid reprocessing
-                processed_files.append(file_path)
-                save_progress(processed_files)
-        except Exception as e:
-            logger.error(f"Error processing {file_path}: {e}")
-            # Don't mark as processed so we can retry later
+                # Log progress periodically
+                if processed_count % 100 == 0:
+                    logger.info(f"Progress: {processed_count}/{total_files} files processed")
+                    logger.info(f"Dataset pages so far: {dataset_page_count}")
+                    logger.info(f"Successful extractions so far: {successful_extraction_count}")
+            
+            except Exception as e:
+                error_count += 1
+                logger.error(f"Error processing {file_path}: {e}")
+                # Don't mark as processed so we can retry later
+        
+        # Log batch completion
+        logger.info(f"Completed batch {i//batch_size + 1}/{(len(html_files) + batch_size - 1)//batch_size}")
+        logger.info(f"Progress: {processed_count}/{total_files} files processed")
+        logger.info(f"Dataset pages so far: {dataset_page_count}")
+        logger.info(f"Successful extractions so far: {successful_extraction_count}")
+    
+    # Log the final statistics
+    logger.info(f"Processing Complete - Statistics:")
+    logger.info(f"Total HTML files: {total_files}")
+    logger.info(f"Files processed: {processed_count}")
+    logger.info(f"Dataset pages identified: {dataset_page_count}")
+    logger.info(f"Non-dataset pages: {non_dataset_page_count}")
+    logger.info(f"Successful extractions: {successful_extraction_count}")
+    logger.info(f"Errors: {error_count}")
     
     logger.info(f"Extracted information for {len(datasets)} datasets")
     logger.info(f"Results saved to {OUTPUT_CSV}")
