@@ -160,7 +160,7 @@ def extract_areas_from_sota_page():
             logger.warning("Could not find area links, using fallback list")
             # Fallback to a list of predefined areas
             return [
-                {'name': 'Computer Vision', 'url': 'https://paperswithcode.com/area/computer-vision'},
+                # {'name': 'Computer Vision', 'url': 'https://paperswithcode.com/area/computer-vision'},
                 {'name': 'Natural Language Processing', 'url': 'https://paperswithcode.com/area/natural-language-processing'},
                 {'name': 'Medical', 'url': 'https://paperswithcode.com/area/medical'},
                 {'name': 'Methodology', 'url': 'https://paperswithcode.com/area/methodology'},
@@ -177,6 +177,8 @@ def extract_areas_from_sota_page():
                 {'name': 'Multimodal', 'url': 'https://paperswithcode.com/area/multimodal'},
                 {'name': 'Recommender Systems', 'url': 'https://paperswithcode.com/area/recommender-systems'}
             ]
+        else:
+            area_links = area_links[1:] # leave the already processed
     
     # Extract area names and URLs
     unique_areas = {}
@@ -240,7 +242,7 @@ def extract_areas_from_sota_page():
     if not areas:
         logger.warning("No areas found, using fallback list")
         return [
-            {'name': 'Computer Vision', 'url': 'https://paperswithcode.com/area/computer-vision'},
+            # {'name': 'Computer Vision', 'url': 'https://paperswithcode.com/area/computer-vision'},
             {'name': 'Natural Language Processing', 'url': 'https://paperswithcode.com/area/natural-language-processing'},
             {'name': 'Medical', 'url': 'https://paperswithcode.com/area/medical'},
             {'name': 'Methodology', 'url': 'https://paperswithcode.com/area/methodology'},
@@ -257,6 +259,8 @@ def extract_areas_from_sota_page():
             {'name': 'Multimodal', 'url': 'https://paperswithcode.com/area/multimodal'},
             {'name': 'Recommender Systems', 'url': 'https://paperswithcode.com/area/recommender-systems'}
         ]
+    else:
+        areas =  areas[1:]
     
     logger.info(f"Found {len(areas)} unique areas")
     return areas

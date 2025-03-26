@@ -62,7 +62,10 @@ def setup_csv_file(csv_path: str) -> None:
         "num_classes",
         "associated_tasks",
         "benchmark_urls",
-        "pwc_url"
+        "pwc_url",
+        "area",
+        "subtask",
+        "task"
     ]
     
     with open(csv_path, 'w', newline='', encoding='utf-8') as f:
@@ -657,8 +660,13 @@ def extract_datasets() -> None:
     if not os.path.exists(OUTPUT_CSV):
         setup_csv_file(OUTPUT_CSV)
     
-    # Get list of HTML files
-    html_files = glob.glob(os.path.join(HTML_DIR, 'pwc_*.html'))
+    # Get list of HTML files recursively from all subdirectories
+    html_files = []
+    for root, dirs, files in os.walk(HTML_DIR):
+        for file in files:
+            if file.endswith('.html'):
+                html_files.append(os.path.join(root, file))
+    
     logger.info(f"Found {len(html_files)} HTML files")
     
     # Load progress
@@ -674,9 +682,33 @@ def extract_datasets() -> None:
             continue
         
         try:
+            # Extract area, task, and subtask from the file path
+            path_parts = os.path.normpath(file_path).split(os.sep)
+            # The structure is either:
+            # paperswithcode/area/task/dataset.html or
+            # paperswithcode/area/subtask/task/dataset.html
+            
+            area = path_parts[1] if len(path_parts) > 2 else ""
+            
+            if len(path_parts) == 4:  # paperswithcode/area/task/dataset.html
+                subtask = path_parts[2]  # Same as task in this case
+                task = path_parts[2]
+            elif len(path_parts) == 5:  # paperswithcode/area/subtask/task/dataset.html
+                subtask = path_parts[2]
+                task = path_parts[3]
+            else:
+                # Unexpected structure, use defaults
+                subtask = ""
+                task = ""
+            
             dataset_info = process_html_file(file_path)
             
             if dataset_info:
+                # Add area, subtask, and task information
+                dataset_info['area'] = area.replace('_', ' ')
+                dataset_info['subtask'] = subtask.replace('_', ' ')
+                dataset_info['task'] = task.replace('_', ' ')
+                
                 # Write dataset to CSV immediately to avoid losing data
                 with open(OUTPUT_CSV, 'a', newline='', encoding='utf-8') as f:
                     writer = csv.DictWriter(f, fieldnames=list(dataset_info.keys()))
@@ -688,7 +720,7 @@ def extract_datasets() -> None:
                 # Save progress after each file
                 save_progress(processed_files)
                 
-                logger.info(f"Processed and saved dataset: {dataset_info['dataset_name']}")
+                logger.info(f"Processed and saved dataset: {dataset_info['dataset_name']} (Area: {area}, Task: {task})")
             else:
                 logger.warning(f"No dataset information extracted from {file_path}")
                 # Still mark as processed to avoid reprocessing
