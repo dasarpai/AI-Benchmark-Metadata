@@ -65,7 +65,8 @@ BENCHMARK_FIELDS = [
     'ethical_considerations',
     'model_architectures',
     'hardware_requirements',
-    'training_time'
+    'training_time',
+    'data_summary'
 ]
 
 # Common evaluation metrics by task type
@@ -109,6 +110,8 @@ def clean_text(text):
     if not text:
         return ""
     
+
+    text =  re.sub(r'Dataset Summary\n', 'Data-Summary:', text)
     # Replace newlines and tabs with spaces
     text = re.sub(r'[\n\t\r]+', ' ', text)
     
@@ -133,8 +136,6 @@ def extract_dataset_info(dataset_name, html_content) -> Dict[str, Any]:
     
     # Initialize dataset data
     dataset_data = {field: "" for field in BENCHMARK_FIELDS}
-    dataset_data['benchmark_name'] = dataset_name
-    dataset_data['dataset_link'] = f"https://huggingface.co/datasets/{dataset_name}"
     
     # Check if HTML content is empty
     if not html_content:
@@ -144,6 +145,24 @@ def extract_dataset_info(dataset_name, html_content) -> Dict[str, Any]:
     try:
         soup = BeautifulSoup(html_content, 'html.parser')
         
+        # Extract benchmark_name and dataset_link from canonical link
+        canonical_link = soup.find('link', rel='canonical')
+        if canonical_link and canonical_link.get('href'):
+            canonical_url = canonical_link.get('href')
+            dataset_data['dataset_link'] = canonical_url
+            
+            # Extract benchmark_name from canonical URL
+            # Example: https://huggingface.co/datasets/LIUM/tedlium -> LIUM/tedlium
+            match = re.search(r'datasets/([^/]+(?:/[^/]+)?)', canonical_url)
+            if match:
+                dataset_data['benchmark_name'] = match.group(1)
+                logger.info(f"Extracted benchmark name from canonical link: {dataset_data['benchmark_name']}")
+        else:
+            # Fallback to default values if canonical link is not found
+            dataset_data['benchmark_name'] = dataset_name
+            dataset_data['dataset_link'] = f"https://huggingface.co/datasets/{dataset_name}"
+            logger.warning(f"Canonical link not found for {dataset_name}, using default values")
+        
         # Method 1: Extract from JSON-LD metadata
         json_ld_script = soup.find('script', type='application/ld+json')
         if json_ld_script and json_ld_script.string:
@@ -152,6 +171,11 @@ def extract_dataset_info(dataset_name, html_content) -> Dict[str, Any]:
                 
                 if 'description' in json_ld_data:
                     description = json_ld_data['description']
+                    
+                    # Extract data summary (text before "Example")
+                    summary_before_example = re.split(r'Example', description, flags=re.IGNORECASE)[0].strip()
+                    dataset_data['data_summary'] = clean_text(summary_before_example)
+                    logger.info(f"Extracted data summary: {dataset_data['data_summary'][:100]}...")
                     
                     # Extract the dataset summary section
                     summary_match = re.search(r'Dataset Summary\s*\n\s*\n(.*?)(?:\n\s*\n\s*\n\s*\n\s*\n\s*\t\t\S|\Z)', 
@@ -316,7 +340,7 @@ def extract_dataset_info(dataset_name, html_content) -> Dict[str, Any]:
                 logger.error(f"Failed to parse JSON-LD data for {dataset_name}")
         
         # Method 2: Extract from HTML if JSON-LD failed
-        if not dataset_data['modality']:
+        if not dataset_data['modality'] or not dataset_data['data_summary']:
             # Find the dataset summary section
             summary_heading = soup.find(string=lambda text: text and "Dataset Summary" in text)
             
@@ -331,6 +355,12 @@ def extract_dataset_info(dataset_name, html_content) -> Dict[str, Any]:
                         summary_text = next_element.get_text(strip=True)
                     
                     logger.info(f"Found summary from HTML: {summary_text[:100]}...")
+                    
+                    # If data_summary is not set yet, extract it from HTML
+                    if not dataset_data['data_summary']:
+                        summary_before_example = re.split(r'Example', summary_text, flags=re.IGNORECASE)[0].strip()
+                        dataset_data['data_summary'] = clean_text(summary_before_example)
+                        logger.info(f"Extracted data summary from HTML: {dataset_data['data_summary'][:100]}...")
                     
                     # Apply the same logic as above to determine modality, domain, etc.
                     if any(term in summary_text.lower() for term in ['image', 'visual', 'picture']):
@@ -453,6 +483,17 @@ def extract_from_html_files():
     # Track processed dataset names to avoid duplicates
     processed_datasets = set()
     
+    # Create csv directory if it doesn't exist
+    csv_path = os.path.join(CSV_DIR, CSV_FILENAME)
+    os.makedirs(os.path.dirname(csv_path), exist_ok=True)
+    
+    # Create CSV file and write header
+    with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=BENCHMARK_FIELDS)
+        writer.writeheader()
+    
+    dataset_count = 0
+    
     for html_file in html_files:
         try:
             # Extract dataset name from filename
@@ -491,7 +532,16 @@ def extract_from_html_files():
             # Add dataset to our list
             datasets.append(dataset_data)
             processed_datasets.add(dataset_name)
-            logger.info(f"Added dataset: {dataset_data['benchmark_name']}")
+            
+            # Write this dataset to CSV immediately
+            with open(csv_path, 'a', newline='', encoding='utf-8') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=BENCHMARK_FIELDS)
+                # Create a new dict with only the fields we want to save
+                filtered_item = {field: dataset_data.get(field, '') for field in BENCHMARK_FIELDS}
+                writer.writerow(filtered_item)
+            
+            dataset_count += 1
+            logger.info(f"Added and saved dataset: {dataset_data['benchmark_name']} ({dataset_count} total)")
             
         except Exception as e:
             logger.error(f"Error processing file {html_file}: {e}")
@@ -531,10 +581,8 @@ def main():
     # Extract data from HTML files
     datasets = extract_from_html_files()
     
-    # Save to CSV
-    csv_path = os.path.join(CSV_DIR, CSV_FILENAME)
-    save_to_csv(datasets, csv_path)
-    logger.info(f"Completed extraction. Saved {len(datasets)} datasets to {csv_path}")
-
+    # No need to save again as we're writing incrementally
+    logger.info(f"Process completed. Processed {len(datasets)} datasets.")
+    
 if __name__ == '__main__':
     main()
